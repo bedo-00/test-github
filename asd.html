@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>تسلسل أرقام مسجد الموحدين - حجم متناسق</title>
+    <style>
+    body {
+        font-family: 'Arial', sans-serif;
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        background-color: #fff; /* إزالة الرمادي */
+    }
+    .page {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        grid-template-rows: repeat(5, 1fr);
+        gap: 8px; /* تقليل المسافة بين المربعات */
+
+        width: 210mm;
+        height: 297mm;
+        margin: 0 auto;
+        padding: 10mm 10mm; /* تقليل الهوامش لزيادة مساحة الطباعة */
+        box-sizing: border-box;
+        page-break-after: always;
+        background-color: #fff;
+    }
+    .number-box {
+        border: 1px solid #000;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        padding: 4px;
+        text-align: center;
+        box-sizing: border-box;
+    }
+    .number {
+        font-size: 42px; /* تقليل طفيف في الحجم */
+        font-weight: bold;
+        margin-bottom: 3px;
+        line-height: 1;
+        white-space: nowrap;
+    }
+    .label {
+        font-size: 16px;
+        color: #000;
+        line-height: 1.1;
+    }
+
+    @media print {
+    body {
+        margin: 0;
+        padding: 0;
+    }
+    .page {
+        width: 180mm;
+        height: 200mm;
+        margin: 0;
+        padding: 0; /* تأكد من أن البادينج صفر */
+        page-break-after: always;
+    }
+}
+
+        .number-box {
+            border: 1px solid #000;
+            padding: 4px;
+        }
+        .number {
+            font-size: 38px;
+        }
+        .label {
+            font-size: 14px;
+        }
+    }
+</style>
+
+</head>
+<body>
+
+    <script>
+        const totalNumbers = 800;
+        const numbersPerPage = 15;
+        const body = document.body;
+
+        for (let i = 1; i <= totalNumbers; i += numbersPerPage) {
+            const pageDiv = document.createElement('div');
+            pageDiv.classList.add('page');
+
+            // إنشاء المربعات الـ 15 (أو أقل في الصفحة الأخيرة)
+            for (let j = 0; j < numbersPerPage; j++) {
+                const currentNumber = i + j;
+                const boxDiv = document.createElement('div');
+                boxDiv.classList.add('number-box');
+
+                if (currentNumber <= totalNumbers) {
+                    const numberSpan = document.createElement('span');
+                    numberSpan.classList.add('number');
+                    numberSpan.textContent = currentNumber;
+                    boxDiv.appendChild(numberSpan);
+
+                    const labelSpan = document.createElement('span');
+                    labelSpan.classList.add('label');
+                    labelSpan.textContent = "شباب مسجد الموحدين";
+                    boxDiv.appendChild(labelSpan);
+                } else {
+                    // إذا لم يكتمل العدد 15 في الصفحة الأخيرة، نترك المربع فارغًا للحفاظ على التنسيق
+                    // يمكن تركها فارغة تمامًا أو وضع مسافة لتحافظ على التنسيق
+                }
+                pageDiv.appendChild(boxDiv);
+            }
+            body.appendChild(pageDiv);
+        }
+    </script>
+
+</body>
+</html>
